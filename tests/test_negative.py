@@ -50,6 +50,7 @@ class TestFrequencyNegative:
 
     def test_frequency_map_invalid_bands(self):
         """Test FrequencyMap with invalid band configuration"""
+
     # This would require checking the implementation
     _ = FrequencyMap()
 

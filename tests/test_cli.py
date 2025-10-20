@@ -4,6 +4,7 @@ Test CLI commands
 
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+
 from click.testing import CliRunner
 
 from ..cli.main import cli
