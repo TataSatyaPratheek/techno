@@ -2,10 +2,8 @@
 Integration tests - end-to-end functionality
 """
 
-from pathlib import Path
 from unittest import mock
 
-import pytest
 from pydub import AudioSegment
 
 from ..generators.synth_generator import SynthGenerator

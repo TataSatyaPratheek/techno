@@ -3,8 +3,6 @@ Fundamental audio primitives for techno
 Each function creates ONE perfect element
 """
 
-import io
-
 import numpy as np
 from pydub import AudioSegment
 from scipy import signal

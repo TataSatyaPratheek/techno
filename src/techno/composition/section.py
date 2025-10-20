@@ -2,9 +2,8 @@
 Section arranger (intro/drop/etc)
 """
 
-from typing import Dict, List, Optional
+from typing import List, Optional
 
-import numpy as np
 from pydub import AudioSegment
 
 from ..core.timing import TimingCalculator

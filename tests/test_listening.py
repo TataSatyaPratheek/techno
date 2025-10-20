@@ -3,7 +3,6 @@ Subjective listening tests
 These test MUSICAL correctness, not just technical
 """
 
-import pytest
 from pydub import AudioSegment
 
 from ..composition.phrase import TechnoPhrase

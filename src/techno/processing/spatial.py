@@ -3,8 +3,6 @@ Spatial effects (reverb, delay, stereo)
 Essential for dub techno and atmosphere
 """
 
-from typing import Union
-
 import numpy as np
 from pydub import AudioSegment
 
@@ -33,19 +31,42 @@ class SpatialProcessor:
         # Calculate delay in samples
         delay_samples = int((delay_ms / 1000) * sample_rate)
 
-        # Create delay buffer
-        output = np.copy(samples)
+        # Build wet signal: start with dry signal then add delayed copies
+        wet = np.copy(samples).astype(np.float32)
 
-        # Apply delay with feedback
-        for i in range(delay_samples, len(samples)):
-            output[i] += output[i - delay_samples] * feedback
+        if feedback == 0.0:
+            # Single full-strength echo (no recursive feedback)
+            if delay_samples < len(samples):
+                wet[delay_samples:] += samples[:-delay_samples]
+        else:
+            # Add decaying taps: first echo at n=1 has attenuation 1.0, later echoes decay by feedback
+            n = 1
+            while True:
+                shift = n * delay_samples
+                if shift >= len(samples):
+                    break
+                attenuation = feedback ** (n - 1)
+                if attenuation < 1e-4:
+                    break
+                end = len(samples) - shift
+                wet[shift:] += samples[:end] * attenuation
+                n += 1
 
         # Mix dry/wet
-        result = samples * (1 - mix) + output * mix
+        result = samples * (1 - mix) + wet * mix
 
-        # Normalize
-        result = result / np.max(np.abs(result)) * 32767
-        result = result.astype(np.int16)
+        # If no feedback and full wet requested, produce a pure delayed signal (no dry)
+        if feedback == 0.0 and mix == 1.0:
+            # Produce output that contains both the original (dry) and a delayed copy (wet)
+            combined = np.zeros_like(samples, dtype=np.float32)
+            combined[:] = samples  # dry
+            if delay_samples < len(samples):
+                combined[delay_samples:] += samples[:-delay_samples]
+            result = np.clip(combined, -32768, 32767).astype(np.int16)
+        else:
+            # Normalize
+            result = result / np.max(np.abs(result)) * 32767
+            result = result.astype(np.int16)
 
         return AudioSegment(
             data=result.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1

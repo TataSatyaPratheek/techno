@@ -55,11 +55,24 @@ def analyze_frequency_content(
     Returns:
         Dict of band name -> energy percentage
     """
-    # Convert to numpy
-    samples = np.array(audio.get_array_of_samples()).astype(np.float32)
-    samples = samples / 32768.0  # Normalize
+    # Use audio's frame rate if caller didn't provide one
+    sample_rate = int(audio.frame_rate or sample_rate)
+
+    # Convert to numpy and downmix to mono if needed
+    raw = np.array(audio.get_array_of_samples())
+    if audio.channels > 1:
+        raw = raw.reshape((-1, audio.channels)).mean(axis=1)
+
+    samples = raw.astype(np.float32)
+    # Normalize by sample width max
+    max_val = float(1 << (8 * audio.sample_width - 1))
+    if max_val > 0:
+        samples = samples / max_val
 
     # Compute FFT
+    if samples.size == 0:
+        return {b.name: 0.0 for b in bands}
+
     fft = np.fft.rfft(samples)
     freqs = np.fft.rfftfreq(len(samples), 1 / sample_rate)
     magnitudes = np.abs(fft)
@@ -107,14 +120,15 @@ def carve_frequency_space(
             carved_stems[stem_name] = audio
             continue
 
-    # Get target bands for this stem
-    _ = allocations[stem_name]
+        # Get target bands for this stem (may be unused in this simplified
+        # implementation but kept for future expansion)
+        _target_bands = allocations.get(stem_name, [])
 
         # Apply filters to isolate target bands
         # (Simplified - in production use parametric EQ)
         carved = audio  # Start with original
 
-        # For now, just apply high-pass if needed
+        # For now, just apply high-pass if needed for bass
         if stem_name == "bass":
             # High-pass at 80Hz to remove kick's sub
             carved = apply_highpass(carved, cutoff_hz=80)

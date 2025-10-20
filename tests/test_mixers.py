@@ -137,7 +137,7 @@ class TestIndustrialTechnoMixer:
             mock_bitcrush.return_value = test_audio
             mock_normalize.return_value = test_audio
 
-            result = mixer._apply_industrial_processing(test_audio)
+            mixer._apply_industrial_processing(test_audio)
 
             # Should apply all processing steps
             mock_waveshaper.assert_called_once_with(test_audio, drive=0.7, curve="hard")
@@ -194,7 +194,7 @@ class TestDubTechnoMixer:
             mock_delay.return_value = test_audio
             mock_hp.return_value = test_audio
 
-            result = mixer._apply_processing(test_audio)
+            mixer._apply_processing(test_audio)
 
             # Should apply all processing steps
             mock_lp.assert_called_once_with(test_audio, cutoff_hz=4000)

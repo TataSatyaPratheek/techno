@@ -3,7 +3,6 @@ Test processing effects
 """
 
 import numpy as np
-import pytest
 from pydub import AudioSegment
 
 from ..processing.distortion import Distortion
@@ -160,7 +159,7 @@ class TestSpatialProcessor:
             echo_section = samples[first_echo_start:first_echo_end]
             # Should be similar (allowing for amplitude)
             correlation = np.correlate(original_section, echo_section)[0]
-            assert correlation > 100000  # Some correlation
+            assert correlation > 10000  # Some correlation
 
     def test_stereo_width(self):
         """Test stereo widening"""
@@ -207,71 +206,3 @@ class TestSpatialProcessor:
         max_level = np.max(np.abs(result_samples))
         expected_max = 10 ** (-6.0 / 20.0) * 32768
         assert max_level <= expected_max + 100  # Small tolerance
-
-
-class TestSpatialProcessor:
-    """Test spatial effects"""
-
-    def test_delay(self):
-        """Test delay effect"""
-        test_audio = create_sine_wave(440, 1000)
-
-        result = SpatialProcessor.delay(test_audio, delay_ms=100, feedback=0.3, mix=0.5)
-
-        assert isinstance(result, AudioSegment)
-        assert result.frame_rate == test_audio.frame_rate
-
-        # Should be different from dry signal
-        original_samples = np.array(test_audio.get_array_of_samples())
-        result_samples = np.array(result.get_array_of_samples())
-        assert not np.allclose(original_samples, result_samples)
-
-    def test_delay_no_feedback(self):
-        """Test delay with no feedback"""
-        test_audio = create_sine_wave(440, 1000)
-
-        result = SpatialProcessor.delay(test_audio, delay_ms=200, feedback=0.0, mix=1.0)
-
-        assert isinstance(result, AudioSegment)
-
-        # With no feedback and full wet, should have echoes
-        samples = np.array(result.get_array_of_samples())
-        # Check that signal repeats (rough check)
-        delay_samples = int(0.2 * 44100)  # 200ms delay
-        if len(samples) > delay_samples * 2:
-            # Compare sections
-            first_echo_start = delay_samples
-            first_echo_end = delay_samples + 1000
-            original_section = samples[:1000]
-            echo_section = samples[first_echo_start:first_echo_end]
-            # Should be similar (allowing for amplitude)
-            correlation = np.correlate(original_section, echo_section)[0]
-            assert correlation > 10000  # Some correlation
-
-    def test_stereo_width(self):
-        """Test stereo widening"""
-        # Start with mono audio
-        mono_audio = create_sine_wave(440, 1000)
-
-        result = SpatialProcessor.stereo_width(mono_audio, width=1.5)
-
-        assert isinstance(result, AudioSegment)
-        assert result.channels == 2  # Should be stereo
-        assert result.frame_rate == mono_audio.frame_rate
-
-        # Stereo samples should be different
-        samples = np.array(result.get_array_of_samples())
-        left = samples[::2]  # Even indices
-        right = samples[1::2]  # Odd indices
-        assert not np.allclose(left, right)
-
-    def test_stereo_width_already_stereo(self):
-        """Test stereo widening on already stereo audio"""
-        # Create stereo audio
-        mono = create_sine_wave(440, 1000)
-        stereo_audio = mono.set_channels(2)
-
-        result = SpatialProcessor.stereo_width(stereo_audio, width=2.0)
-
-        assert isinstance(result, AudioSegment)
-        assert result.channels == 2

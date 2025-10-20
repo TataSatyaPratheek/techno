@@ -2,7 +2,6 @@
 Test composition modules
 """
 
-import pytest
 from pydub import AudioSegment
 
 from ..composition.phrase import TechnoPhrase

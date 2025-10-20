@@ -4,11 +4,9 @@ Test CLI commands
 
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-
-import pytest
 from click.testing import CliRunner
 
-from ..cli.main import analyze, cli, generate, list_presets
+from ..cli.main import cli
 
 
 class TestCLI:

@@ -3,7 +3,6 @@ Test synthesis utilities
 """
 
 import numpy as np
-import pytest
 
 from ..core.synthesis import EnvelopeGenerator, WaveformGenerator
 

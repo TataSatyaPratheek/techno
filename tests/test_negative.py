@@ -50,13 +50,13 @@ class TestFrequencyNegative:
 
     def test_frequency_map_invalid_bands(self):
         """Test FrequencyMap with invalid band configuration"""
-        # This would require checking the implementation
-        freq_map = FrequencyMap()
+    # This would require checking the implementation
+    _ = FrequencyMap()
 
-        # Test with very short audio
-        short_audio = create_sine_wave(440, 10)  # 10ms
-        # Should not crash
-        assert short_audio is not None
+    # Test with very short audio
+    short_audio = create_sine_wave(440, 10)  # 10ms
+    # Should not crash
+    assert short_audio is not None
 
 
 class TestPrimitivesNegative:

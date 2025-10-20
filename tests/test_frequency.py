@@ -3,7 +3,6 @@ Test frequency analysis and carving
 """
 
 import numpy as np
-import pytest
 from pydub import AudioSegment
 
 from ..core.frequency import (
