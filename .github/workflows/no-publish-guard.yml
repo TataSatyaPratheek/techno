@@ -1,10 +1,10 @@
-name: Prevent accidental publish
+name: Prevent Accidental Publish
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   guard:
@@ -17,16 +17,27 @@ jobs:
       - name: Search for publish keywords in workflows
         run: |
           set -euo pipefail
-          # Only scan workflow files in .github/workflows (skip lockfiles and venv)
           WORKFLOW_DIR=".github/workflows"
-          # Exclude this guard file from the search
-          find "$WORKFLOW_DIR" -type f -name "*.yml" -not -name "no-publish-guard.yml" | \
-            xargs -r git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" || true
-          # If any matches were printed, fail now
-          if [ -n "$(find "$WORKFLOW_DIR" -type f -name "*.yml" -not -name "no-publish-guard.yml" -print0 | xargs -0 git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" || true)" ]; then
-            echo "Potential publish-related strings found in workflows. Please ensure publishing automation is intentional." >&2
+          
+          echo "Scanning workflow files for publish-related keywords..."
+          
+          # Search for publish-related patterns
+          MATCHES=$(find "$WORKFLOW_DIR" -type f -name "*.yml" -not -name "no-publish-guard.yml" -print0 | \
+            xargs -0 grep -n -E "uv publish|twine upload|upload.*pypi|PyPI" || true)
+          
+          if [ -n "$MATCHES" ]; then
+            echo "❌ ERROR: Potential publish-related strings found in workflows:"
+            echo "$MATCHES"
+            echo ""
+            echo "This repository is configured to prevent accidental publishing."
+            echo "If you need to add release automation, please:"
+            echo "1. Create a separate branch for release configuration"
+            echo "2. Ensure repository owners configure release secrets"
+            echo "3. Update this guard workflow accordingly"
             exit 1
           fi
 
-      - name: OK
-        run: echo "No publish keywords found"
+      - name: Success
+        run: |
+          echo "✅ No publish keywords found in workflows"
+          echo "✅ Repository is protected from accidental publishing"

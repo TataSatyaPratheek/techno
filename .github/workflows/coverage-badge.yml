@@ -1,0 +1,41 @@
+name: Coverage Badge
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install FFmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg libavcodec-extra
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+
+    - name: Set up Python
+      run: uv python install 3.12
+
+    - name: Install dependencies
+      run: uv sync --dev
+
+    - name: Run tests with coverage
+      run: |
+        uv run pytest --cov=techno --cov-report=json
+
+    - name: Generate coverage badge
+      uses: tj-actions/coverage-badge-py@v2
+      with:
+        output: coverage.svg
+
+    - name: Commit coverage badge
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Update coverage badge"
+        file_pattern: coverage.svg
