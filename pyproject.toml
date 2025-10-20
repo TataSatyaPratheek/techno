@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A comprehensive techno music generation system"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [
     {name = "Techno Generator Team"},
 ]
@@ -22,13 +22,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Multimedia :: Sound/Audio :: Analysis",
-    "Topic :: Multimedia :: Sound/Audio :: Synthesis",
+    "Topic :: Multimedia :: Sound/Audio",
 ]
 dependencies = [
     "click>=8.0.0",
@@ -90,6 +87,9 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
 
 [tool.uv]
 dev-dependencies = [
