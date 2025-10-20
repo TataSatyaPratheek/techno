@@ -48,6 +48,20 @@ dev = [
 [project.scripts]
 techno = "techno.cli.main:main"
 
+# UV-specific dependency groups (THIS IS THE FIX!)
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "coverage>=7.0.0",
+    "types-pyyaml>=6.0.12.20250915",
+    "black==25.9.0",
+    "isort==7.0.0",
+    "flake8==7.3.0",
+    "mypy==1.18.2",
+    "typing-extensions>=4.0.0",
+]
+
 # Correct Hatchling config for src/ layout
 [tool.hatch.build.targets.wheel]
 packages = ["src/techno"]
