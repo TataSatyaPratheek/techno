@@ -29,8 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Technical
 
-- Python 3.8+ compatibility
-- Modern packaging with pyproject.toml
-- Type hints throughout the codebase
-- Comprehensive documentation
-- Professional code quality standards
+- Python 3.10+ compatibility (development and CI validated on 3.10/3.11/3.12)
+- Uses a `src/` development layout (`src/techno`) for reliable static analysis and packaging
+- Modern packaging with `pyproject.toml` and Hatchling as the build backend
+- Type hints throughout the codebase and strict mypy checks in CI
+- CI release/publishing is intentionally disabled in this repository; the
+	project is maintained for local development and research and is not
+	automatically published to PyPI.
+- Professional code quality standards (Black/isort/flake8/mypy/pytest)

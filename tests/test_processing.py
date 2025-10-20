@@ -89,9 +89,7 @@ class TestDynamicsProcessor:
                 np.full(1000, 5000, dtype=np.int16),  # Quiet again
             ]
         )
-        test_audio = AudioSegment(
-            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
-        )
+        test_audio = AudioSegment(data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1)
 
         result = DynamicsProcessor.compress(test_audio, threshold_db=-20, ratio=4.0)
 
@@ -107,9 +105,7 @@ class TestDynamicsProcessor:
         """Test limiting"""
         # Create signal that exceeds ceiling
         samples = np.full(1000, 30000, dtype=np.int16)  # Very loud
-        test_audio = AudioSegment(
-            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
-        )
+        test_audio = AudioSegment(data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1)
 
         result = DynamicsProcessor.limit(test_audio, ceiling_db=-6.0)
 
@@ -193,9 +189,7 @@ class TestSpatialProcessor:
         """Test limiting"""
         # Create signal that exceeds ceiling
         samples = np.full(1000, 30000, dtype=np.int16)  # Very loud
-        test_audio = AudioSegment(
-            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
-        )
+        test_audio = AudioSegment(data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1)
 
         result = DynamicsProcessor.limit(test_audio, ceiling_db=-6.0)
 

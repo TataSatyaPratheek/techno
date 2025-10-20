@@ -17,25 +17,19 @@ class WaveformGenerator:
         return np.sin(2 * np.pi * frequency * t)
 
     @staticmethod
-    def sawtooth(
-        frequency: float, duration: float, sample_rate: int = 44100
-    ) -> np.ndarray:
+    def sawtooth(frequency: float, duration: float, sample_rate: int = 44100) -> np.ndarray:
         """Generate sawtooth wave (rich harmonics)"""
         t = np.linspace(0, duration, int(sample_rate * duration))
         return signal.sawtooth(2 * np.pi * frequency * t)
 
     @staticmethod
-    def square(
-        frequency: float, duration: float, sample_rate: int = 44100
-    ) -> np.ndarray:
+    def square(frequency: float, duration: float, sample_rate: int = 44100) -> np.ndarray:
         """Generate square wave (hollow, 303-style)"""
         t = np.linspace(0, duration, int(sample_rate * duration))
         return signal.square(2 * np.pi * frequency * t)
 
     @staticmethod
-    def triangle(
-        frequency: float, duration: float, sample_rate: int = 44100
-    ) -> np.ndarray:
+    def triangle(frequency: float, duration: float, sample_rate: int = 44100) -> np.ndarray:
         """Generate triangle wave (softer than square)"""
         t = np.linspace(0, duration, int(sample_rate * duration))
         return signal.sawtooth(2 * np.pi * frequency * t, width=0.5)
@@ -67,9 +61,7 @@ class EnvelopeGenerator:
         attack_samples = int(sample_rate * attack)
         decay_samples = int(sample_rate * decay)
         release_samples = int(sample_rate * release)
-        sustain_samples = (
-            total_samples - attack_samples - decay_samples - release_samples
-        )
+        sustain_samples = total_samples - attack_samples - decay_samples - release_samples
 
         # Build envelope
         envelope = np.zeros(total_samples)
@@ -94,9 +86,7 @@ class EnvelopeGenerator:
         return envelope
 
     @staticmethod
-    def exponential_decay(
-        duration: float, decay_rate: float, sample_rate: int = 44100
-    ) -> np.ndarray:
+    def exponential_decay(duration: float, decay_rate: float, sample_rate: int = 44100) -> np.ndarray:
         """Exponential decay envelope (common for techno)"""
         t = np.linspace(0, duration, int(sample_rate * duration))
         return np.exp(-decay_rate * t)

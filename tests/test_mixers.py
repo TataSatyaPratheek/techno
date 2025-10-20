@@ -55,9 +55,7 @@ class TestMinimalTechnoMixer:
         mock_composer_instance.compose.return_value = mock_track
 
         # Mock processing
-        with patch.object(
-            MinimalTechnoMixer, "_apply_minimal_processing", return_value=mock_track
-        ) as mock_process:
+        with patch.object(MinimalTechnoMixer, "_apply_minimal_processing", return_value=mock_track) as mock_process:
             mixer = MinimalTechnoMixer()
             result = mixer.create_track()
 
@@ -126,9 +124,7 @@ class TestIndustrialTechnoMixer:
         test_audio = AudioSegment.silent(duration=1000)
 
         with (
-            patch(
-                "techno.processing.distortion.Distortion.waveshaper"
-            ) as mock_waveshaper,
+            patch("techno.processing.distortion.Distortion.waveshaper") as mock_waveshaper,
             patch("techno.processing.distortion.Distortion.bit_crush") as mock_bitcrush,
             patch("pydub.effects.normalize") as mock_normalize,
         ):
@@ -168,9 +164,7 @@ class TestDubTechnoMixer:
         mock_track = MagicMock(spec=AudioSegment)
         mock_composer_instance.compose.return_value = mock_track
 
-        with patch.object(
-            DubTechnoMixer, "_apply_processing", return_value=mock_track
-        ) as mock_process:
+        with patch.object(DubTechnoMixer, "_apply_processing", return_value=mock_track) as mock_process:
             mixer = DubTechnoMixer()
             result = mixer.create_track()
 
@@ -198,7 +192,5 @@ class TestDubTechnoMixer:
 
             # Should apply all processing steps
             mock_lp.assert_called_once_with(test_audio, cutoff_hz=4000)
-            mock_delay.assert_called_once_with(
-                test_audio, delay_ms=500, feedback=0.7, mix=0.6
-            )
+            mock_delay.assert_called_once_with(test_audio, delay_ms=500, feedback=0.7, mix=0.6)
             mock_hp.assert_called_once_with(test_audio, cutoff_hz=30)

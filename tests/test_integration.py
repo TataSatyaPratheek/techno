@@ -114,9 +114,7 @@ class TestEndToEndGeneration:
         for name, stem in stems.items():
             if name == "kick":
                 # Apply compression to kick
-                processed = DynamicsProcessor.compress(
-                    stem, threshold_db=-15, ratio=4.0
-                )
+                processed = DynamicsProcessor.compress(stem, threshold_db=-15, ratio=4.0)
             elif name == "bass":
                 # Apply low-pass to bass
                 processed = TechnoFilters.low_pass(stem, cutoff_hz=3000)

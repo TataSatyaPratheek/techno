@@ -31,24 +31,18 @@ class SectionBuilder:
         if style == "minimal":
             # Start with just kick for first half
             half_bars = bars // 2
-            first_half = self.phrase_builder.build_phrase(
-                elements=["kick"], volumes={"kick": -2.0}  # Quieter intro
-            )
+            first_half = self.phrase_builder.build_phrase(elements=["kick"], volumes={"kick": -2.0})  # Quieter intro
             # Repeat/truncate to match half duration
             target_ms = self.timing.bars_to_ms(half_bars)
             if len(first_half) > target_ms:
                 first_half = first_half[:target_ms]
             else:
                 while len(first_half) < target_ms:
-                    first_half += self.phrase_builder.build_phrase(
-                        elements=["kick"], volumes={"kick": -2.0}
-                    )
+                    first_half += self.phrase_builder.build_phrase(elements=["kick"], volumes={"kick": -2.0})
                 first_half = first_half[:target_ms]
 
             # Add subtle bass in second half
-            second_half = self.phrase_builder.build_phrase(
-                elements=["kick", "bass"], volumes={"kick": -1.0, "bass": -4.0}
-            )
+            second_half = self.phrase_builder.build_phrase(elements=["kick", "bass"], volumes={"kick": -1.0, "bass": -4.0})
             if len(second_half) > target_ms:
                 second_half = second_half[:target_ms]
             else:
@@ -62,14 +56,10 @@ class SectionBuilder:
 
         elif style == "industrial":
             # Aggressive from start
-            intro = self.phrase_builder.build_phrase(
-                elements=["kick"], volumes={"kick": 2.0}  # Loud immediately
-            )
+            intro = self.phrase_builder.build_phrase(elements=["kick"], volumes={"kick": 2.0})  # Loud immediately
             # Repeat for full intro length
             while len(intro) < self.timing.bars_to_ms(bars):
-                intro += self.phrase_builder.build_phrase(
-                    elements=["kick"], volumes={"kick": 2.0}
-                )
+                intro += self.phrase_builder.build_phrase(elements=["kick"], volumes={"kick": 2.0})
             intro = intro[: self.timing.bars_to_ms(bars)]
 
         return intro
@@ -132,9 +122,7 @@ class SectionBuilder:
         # Build drop by repeating phrases
         phrases_needed = bars // 8
         for _ in range(phrases_needed):
-            phrase = self.phrase_builder.build_phrase(
-                elements=["kick", "bass", "hats"], volumes=volumes
-            )
+            phrase = self.phrase_builder.build_phrase(elements=["kick", "bass", "hats"], volumes=volumes)
             drop += phrase
 
         # Ensure exact length
@@ -142,9 +130,7 @@ class SectionBuilder:
 
         return drop
 
-    def create_breakdown(
-        self, bars: int = 8, remove_elements: Optional[List[str]] = None
-    ) -> AudioSegment:
+    def create_breakdown(self, bars: int = 8, remove_elements: Optional[List[str]] = None) -> AudioSegment:
         """
         Create breakdown section
 
@@ -167,9 +153,7 @@ class SectionBuilder:
         # Build phrases to fill the required duration
         target_ms = self.timing.bars_to_ms(bars)
         while len(breakdown) < target_ms:
-            phrase = self.phrase_builder.build_phrase(
-                elements=keep_elements, volumes=volumes
-            )
+            phrase = self.phrase_builder.build_phrase(elements=keep_elements, volumes=volumes)
             breakdown += phrase
 
         breakdown = breakdown[:target_ms]

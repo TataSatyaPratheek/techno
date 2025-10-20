@@ -24,10 +24,14 @@ This project follows a code of conduct to ensure a welcoming environment for all
    cd techno
    ```
 
-3. **Set up the development environment**:
+3. **Set up the development environment** (project uses a `src/` layout):
 
    ```bash
+   # Create the environment and install dev deps
    uv sync --dev
+
+   # Editable install so your local edits are active
+   pip install -e .
    ```
 
 4. **Create a feature branch**:
@@ -50,28 +54,47 @@ This project follows a code of conduct to ensure a welcoming environment for all
    uv run isort .
    uv run mypy .
    ```
-5. **Commit your changes**:
+
+Note: CI runs a strict check pipeline; prefer using the `uv run` invocations above (they are configured to run tools against the `src/` package layout).
+
+For a concise developer quickstart and instructions for building local wheels (private distribution), see the `Developer quickstart` and `Local release / private wheel (HOWTO)` sections in `README.md`.
+
+### Repository publishing policy
+
+This repository is not published to PyPI and there is no automated publishing configured for public release. The project is intended for local development, research, and private use. If maintainers later decide to publish, they should:
+
+- Add clear release notes and a changelog entry.
+- Ensure reviewers and maintainers agree to the release.
+- Add publishing automation and repository secrets deliberately and separately from development changes.
+
+## Development Workflow (continuation)
+
+1. **Commit your changes**:
+
    ```bash
    git add .
    git commit -m "feat: add your feature description"
    ```
-6. **Push to your fork**:
+
+1. **Push to your fork**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
-7. **Create a Pull Request** on GitHub
 
-## Coding Standards
+1. **Create a Pull Request** on GitHub
 
-### Python Style
-
-This project follows PEP 8 with some additional rules:
-
-- **Formatting**: Use [Black](https://black.readthedocs.io/) for consistent formatting
-- **Imports**: Use [isort](https://pycqa.github.io/isort/) for import sorting
-- **Type hints**: Add type hints to all function signatures
-- **Docstrings**: Use Google-style docstrings for all public functions
-- **Line length**: Maximum 127 characters per line
+```text
+src/techno/
+├── cli/                 # Command-line interface
+├── core/                # Core audio primitives
+├── composition/         # Musical composition algorithms
+├── generators/          # Audio generators and synthesizers
+├── mixers/              # Mixing and mastering tools
+├── processing/          # Audio effects and processing
+├── presets/             # Style presets and configurations
+└── tests/               # Test suite
+```
 
 ### Commit Messages
 
@@ -86,16 +109,20 @@ type(scope): description
 ```
 
 Types:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes
-- `refactor`: Code refactoring
-- `test`: Test additions/changes
-- `chore`: Maintenance tasks
+
+```text
+1. `feat`: New feature
+1. `fix`: Bug fix
+1. `docs`: Documentation changes
+1. `style`: Code style changes
+1. `refactor`: Code refactoring
+1. `test`: Test additions/changes
+1. `chore`: Maintenance tasks
+```
 
 Examples:
-```
+
+```text
 feat(generator): add industrial techno style support
 fix(mixer): resolve audio clipping in high-gain scenarios
 docs(readme): update installation instructions
@@ -117,16 +144,16 @@ docs(readme): update installation instructions
 
 ## Project Structure
 
-```
-techno/
+```text
+src/techno/
 ├── cli/                 # Command-line interface
 ├── core/                # Core audio primitives
 ├── composition/         # Musical composition algorithms
 ├── generators/          # Audio generators and synthesizers
 ├── mixers/              # Mixing and mastering tools
 ├── processing/          # Audio effects and processing
-├── presets/            # Style presets and configurations
-└── tests/              # Test suite
+├── presets/             # Style presets and configurations
+└── tests/               # Test suite
 ```
 
 ## Audio Development Guidelines
@@ -170,6 +197,7 @@ For new features:
 ## Recognition
 
 Contributors will be recognized in:
+
 - CHANGELOG.md for significant contributions
 - GitHub repository contributors list
 - Project documentation

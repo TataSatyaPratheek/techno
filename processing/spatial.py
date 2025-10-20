@@ -47,9 +47,7 @@ class SpatialProcessor:
         result = result / np.max(np.abs(result)) * 32767
         result = result.astype(np.int16)
 
-        return AudioSegment(
-            data=result.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1
-        )
+        return AudioSegment(data=result.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1)
 
     @staticmethod
     def stereo_width(audio: AudioSegment, width: float = 1.5) -> AudioSegment:

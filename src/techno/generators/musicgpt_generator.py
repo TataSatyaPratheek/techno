@@ -16,9 +16,7 @@ class MusicGPTGenerator:
     def __init__(self, model: str = "small"):
         self.model = model
 
-    def generate_stem(
-        self, prompt: str, duration: int, output_path: Path
-    ) -> Optional[AudioSegment]:
+    def generate_stem(self, prompt: str, duration: int, output_path: Path) -> Optional[AudioSegment]:
         """
         Generate single stem with MusicGPT
 
@@ -56,9 +54,7 @@ class MusicGPTGenerator:
             print("MusicGPT timed out")
             return None
 
-    def generate_all_stems(
-        self, prompts: Dict[str, str], duration: int, output_dir: Path
-    ) -> Dict[str, AudioSegment]:
+    def generate_all_stems(self, prompts: Dict[str, str], duration: int, output_dir: Path) -> Dict[str, AudioSegment]:
         """Generate all stems from prompts"""
         output_dir.mkdir(parents=True, exist_ok=True)
 

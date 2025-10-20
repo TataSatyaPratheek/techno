@@ -46,9 +46,7 @@ class DubTechnoMixer(BaseMixer):
         track = TechnoFilters.low_pass(track, cutoff_hz=4000)
 
         # Tape delay (500ms, high feedback)
-        track = SpatialProcessor.delay(
-            track, delay_ms=500, feedback=0.7, mix=0.6  # Heavy wet mix
-        )
+        track = SpatialProcessor.delay(track, delay_ms=500, feedback=0.7, mix=0.6)  # Heavy wet mix
 
         # Subtle high-pass (remove rumble)
         track = TechnoFilters.high_pass(track, cutoff_hz=30)

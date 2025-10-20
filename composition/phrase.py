@@ -67,9 +67,7 @@ class TechnoPhrase:
                 note_midi = notes[note_idx]
                 freq = 440 * (2 ** ((note_midi - 69) / 12))
 
-                bass_note = self.bass_gen.generate_note(
-                    frequency=freq, duration_bars=0.125, waveform="saw"  # 8th note
-                )
+                bass_note = self.bass_gen.generate_note(frequency=freq, duration_bars=0.125, waveform="saw")  # 8th note
 
                 position_ms = int(i * self.timing.ms_per_beat / 2)
                 phrase = phrase.overlay(bass_note, position=position_ms)
@@ -98,9 +96,7 @@ class TechnoPhrase:
 
         return phrase
 
-    def build_phrase(
-        self, elements: List[str], volumes: Optional[Dict[str, float]] = None
-    ) -> AudioSegment:
+    def build_phrase(self, elements: List[str], volumes: Optional[Dict[str, float]] = None) -> AudioSegment:
         """
         Build complete 8-bar phrase from elements
 
