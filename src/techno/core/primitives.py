@@ -91,7 +91,7 @@ class Kick(TechnoPrimitive):
             punch=1.0,  # Maximum punch
         )
         # Add distortion
-        from techno.processing.distortion import Distortion
+        from ..processing.distortion import Distortion
 
         return Distortion.waveshaper(kick, drive=0.7)
 

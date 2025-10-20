@@ -9,17 +9,17 @@ from typing import Optional, Union
 import click
 import yaml
 
-from techno.mixers.industrial import IndustrialTechnoMixer
-from techno.mixers.minimal import MinimalTechnoMixer
+from ..mixers.industrial import IndustrialTechnoMixer
+from ..mixers.minimal import MinimalTechnoMixer
 
 
 @click.group()
-def cli() -> None:
+def main() -> None:
     """Techno Production System - Fundamentals-First Approach"""
     pass
 
 
-@cli.command()
+@main.command()
 @click.option("--subgenre", type=click.Choice(["minimal", "industrial", "dub"]), default="minimal")
 @click.option("--bpm", type=int, default=None, help="Override default BPM")
 @click.option("--output", type=str, default="output.wav", help="Output filename")
@@ -59,7 +59,7 @@ def generate(subgenre: str, bpm: Optional[int], output: str) -> None:
     click.echo(f"   BPM: {preset['bpm']}")
 
 
-@cli.command()
+@main.command()
 def list_presets() -> None:
     """List available presets"""
 
@@ -77,14 +77,14 @@ def list_presets() -> None:
         click.echo(f"    BPM: {data['bpm']}\n")
 
 
-@cli.command()
+@main.command()
 @click.argument("audio_file")
 def analyze(audio_file: str) -> None:
     """Analyze frequency content of audio file"""
 
     from pydub import AudioSegment
 
-    from techno.core.frequency import analyze_frequency_content
+    from ..core.frequency import analyze_frequency_content
 
     audio = AudioSegment.from_file(audio_file)
 
@@ -99,4 +99,4 @@ def analyze(audio_file: str) -> None:
 
 
 if __name__ == "__main__":
-    cli()
+    main()

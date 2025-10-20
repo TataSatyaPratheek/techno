@@ -181,10 +181,10 @@ class TestFileOperationsNegative:
 
     from click.testing import CliRunner
 
-    from techno.cli.main import cli
+    from techno.cli.main import main
 
     runner = CliRunner()
-    result = runner.invoke(cli, ["analyze", "nonexistent.wav"])
+    result = runner.invoke(main, ["analyze", "nonexistent.wav"])
 
     # Should handle gracefully
     assert result.exit_code != 0 or "Error" in result.output
@@ -194,11 +194,11 @@ class TestFileOperationsNegative:
 
     from click.testing import CliRunner
 
-    from techno.cli.main import cli
+    from techno.cli.main import main
 
     runner = CliRunner()
     # Try to write to a directory that doesn't exist
-    result = runner.invoke(cli, ["generate", "--output", "/nonexistent/dir/track.wav"])
+    result = runner.invoke(main, ["generate", "--output", "/nonexistent/dir/track.wav"])
 
     # Should handle the error
     assert result.exit_code != 0 or "Error" in result.output

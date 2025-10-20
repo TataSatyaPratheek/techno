@@ -121,7 +121,7 @@ def carve_frequency_space(
 
         # Get target bands for this stem (may be unused in this simplified
         # implementation but kept for future expansion)
-        _target_bands = allocations.get(stem_name, [])
+        # _target_bands = allocations.get(stem_name, [])
 
         # Apply filters to isolate target bands
         # (Simplified - in production use parametric EQ)

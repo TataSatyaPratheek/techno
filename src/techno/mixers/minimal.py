@@ -5,7 +5,6 @@ Minimal techno
 from pydub import AudioSegment
 
 from ..composition.structure import StructureTemplates, TrackComposer
-from ..core.frequency import FrequencyMap, carve_frequency_space
 from ..processing.filters import TechnoFilters
 
 

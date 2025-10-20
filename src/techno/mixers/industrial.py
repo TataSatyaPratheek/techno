@@ -6,7 +6,6 @@ from pydub import AudioSegment
 
 from ..composition.structure import StructureTemplates, TrackComposer
 from ..processing.distortion import Distortion
-from ..processing.filters import TechnoFilters
 
 
 class IndustrialTechnoMixer:

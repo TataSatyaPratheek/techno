@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from techno.cli.main import cli
+from techno.cli.main import main
 
 
 class TestCLI:
@@ -16,7 +16,7 @@ class TestCLI:
     def test_cli_group(self):
         """Test CLI group exists"""
         runner = CliRunner()
-        result = runner.invoke(cli, ["--help"])
+        result = runner.invoke(main, ["--help"])
         assert result.exit_code == 0
         assert "Techno Production System" in result.output
 
@@ -42,7 +42,7 @@ bpm: 124
 """
             )
 
-            result = runner.invoke(cli, ["generate", "--subgenre", "minimal", "--output", "test.wav"])
+            result = runner.invoke(main, ["generate", "--subgenre", "minimal", "--output", "test.wav"])
 
             assert result.exit_code == 0
             assert "Generating minimal techno track" in result.output
@@ -71,7 +71,7 @@ bpm: 138
 """
             )
 
-            result = runner.invoke(cli, ["generate", "--subgenre", "industrial"])
+            result = runner.invoke(main, ["generate", "--subgenre", "industrial"])
 
             assert result.exit_code == 0
             assert "Generating industrial techno track" in result.output
@@ -80,7 +80,7 @@ bpm: 138
     def test_generate_invalid_subgenre(self):
         """Test generate with invalid subgenre"""
         runner = CliRunner()
-        result = runner.invoke(cli, ["generate", "--subgenre", "invalid"])
+        result = runner.invoke(main, ["generate", "--subgenre", "invalid"])
 
         assert result.exit_code == 2  # Click exits with error for invalid choice
         assert "Invalid value for" in result.output
@@ -113,7 +113,7 @@ bpm: 138
 """
             )
 
-            result = runner.invoke(cli, ["list-presets"])
+            result = runner.invoke(main, ["list-presets"])
 
             assert result.exit_code == 0
             assert "Available presets" in result.output
@@ -156,7 +156,7 @@ bpm: 138
             audio_file = Path("test.wav")
             audio_file.write_bytes(b"dummy audio data")
 
-            result = runner.invoke(cli, ["analyze", "test.wav"])
+            result = runner.invoke(main, ["analyze", "test.wav"])
 
             assert result.exit_code == 0
             assert "Analyzing test.wav" in result.output
