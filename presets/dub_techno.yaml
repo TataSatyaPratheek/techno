@@ -1,0 +1,45 @@
+name: "dub_techno"
+description: "Deep spacious dub techno - Basic Channel style"
+bpm: 118
+
+synthesis:
+  kick:
+    type: "generated"
+    sub_freq: 40
+    punch_freq: 70
+    decay_ms: 200
+    punch: 0.5
+  
+  chords:
+    type: "generated"
+    progression: ["Cmaj7", "Dm7", "Am7"]
+    voicing: "jazz"
+  
+  hats:
+    type: "generated"
+    frequency_center: 11000
+    closedness: 0.85
+
+mix:
+  volumes:
+    kick: -2.0
+    chords: 0.0
+    hats: -4.0
+  
+  dynamics:
+    preserve_range: true
+    headroom: 2.0
+
+structure: "dub_30s"
+
+effects:
+  delay:
+    time_ms: 500
+    feedback: 0.8
+    mix: 0.7
+  reverb:
+    type: "spring"
+    decay: 5.0
+    mix: 0.8
+  lowpass:
+    cutoff: 4000

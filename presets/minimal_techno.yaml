@@ -1,0 +1,41 @@
+name: "minimal_techno"
+description: "Hypnotic minimal techno - Robert Hood style"
+bpm: 124
+
+# Synthesis parameters
+synthesis:
+  kick:
+    type: "generated"  # vs "musicgpt"
+    sub_freq: 55
+    punch_freq: 75
+    decay_ms: 150
+    punch: 0.6
+  
+  bass:
+    type: "generated"
+    waveform: "saw"
+    notes: [40, 42, 45, 47]  # E, F#, A, B
+    filter_cutoff: 800
+    resonance: 0.7
+  
+  hats:
+    type: "generated"
+    frequency_center: 10000
+    closedness: 0.9
+
+# Mix settings
+mix:
+  frequency_carving: true
+  bass_highpass: 80  # Hz - remove kick's sub
+  
+  volumes:
+    kick: 0.0
+    bass: -2.0
+    hats: -1.0
+  
+  dynamics:
+    preserve_range: true
+    headroom: 2.0  # More dynamic range
+
+# Structure
+structure: "minimal_30s"  # Uses StructureTemplates.minimal_techno_30s()

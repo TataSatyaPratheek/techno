@@ -1,0 +1,46 @@
+name: "industrial_techno"
+description: "Harsh dystopian industrial techno - Ancient Methods style"
+bpm: 138
+
+synthesis:
+  kick:
+    type: "generated"
+    sub_freq: 45
+    punch_freq: 90
+    decay_ms: 250
+    punch: 1.0
+  
+  bass:
+    type: "generated"
+    waveform: "saw"
+    notes: [38, 40, 43, 45]  # D, E, G, A
+    filter_cutoff: 600
+    resonance: 0.9
+  
+  hats:
+    type: "generated"
+    frequency_center: 9000
+    closedness: 0.7
+
+mix:
+  frequency_carving: true
+  bass_highpass: 60
+  
+  volumes:
+    kick: 3.0
+    bass: 1.5
+    hats: 2.0
+  
+  dynamics:
+    preserve_range: false
+    headroom: 0.5
+    heavy_compression: true
+
+structure: "industrial_30s"
+
+effects:
+  distortion:
+    drive: 0.7
+    curve: "hard"
+  bit_crush:
+    bit_depth: 14

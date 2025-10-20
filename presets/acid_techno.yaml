@@ -1,0 +1,33 @@
+name: "acid_techno"
+description: "303-driven acid techno - Phuture style"
+bpm: 135
+
+synthesis:
+  kick:
+    type: "generated"
+    sub_freq: 50
+    punch_freq: 85
+    decay_ms: 180
+    punch: 0.8
+  
+  bass_303:
+    type: "303"
+    waveform: "saw"
+    notes: [40, 42, 45, 47, 40, 42, 45, 49]
+    pattern: "x.x-x-x.x-x-"
+    filter_cutoff: 400
+    resonance: 0.9
+    slide: true
+  
+  hats:
+    type: "generated"
+    frequency_center: 10000
+    closedness: 0.9
+
+mix:
+  volumes:
+    kick: 1.0
+    bass_303: 0.0
+    hats: -1.0
+
+structure: "acid_30s"
