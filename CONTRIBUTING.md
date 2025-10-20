@@ -52,7 +52,7 @@ This project follows a code of conduct to ensure a welcoming environment for all
    ```bash
    uv run black .
    uv run isort .
-   uv run mypy .
+   uv run mypy src/techno
    ```
 
 Note: CI runs a strict check pipeline; prefer using the `uv run` invocations above (they are configured to run tools against the `src/` package layout).
