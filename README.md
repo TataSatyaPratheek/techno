@@ -103,10 +103,10 @@ uv run pytest --cov=techno --cov-report=html
 # Format and lint
 uv run black --check --diff .
 uv run isort --check-only --diff .
-uv run flake8 techno tests
+uv run flake8 src/techno tests
 
 # Type checking
-uv run mypy techno
+uv run mypy src/techno
 ```
 
 ### Testing
@@ -170,8 +170,8 @@ uv run black .
 uv run isort .
 
 # Run linters and type checks
-uv run flake8 techno tests
-uv run mypy techno
+uv run flake8 src/techno tests
+uv run mypy src/techno
 
 # Run the CLI locally (after editable install)
 techno --help
