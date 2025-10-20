@@ -14,13 +14,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Search for publish keywords
+      - name: Search for publish keywords in workflows
         run: |
           set -euo pipefail
-          # Look for common publish commands or PyPI references in workflows and source
-          if git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" -- . || true; then
-            echo "Potential publish-related strings found. Please ensure publishing automation is intentional." >&2
-            git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" -- . || true
+          # Only scan workflow files in .github/workflows (skip lockfiles and venv)
+          WORKFLOW_DIR=".github/workflows"
+          # Exclude this guard file from the search
+          find "$WORKFLOW_DIR" -type f -name "*.yml" -not -name "no-publish-guard.yml" | \
+            xargs -r git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" || true
+          # If any matches were printed, fail now
+          if [ -n "$(find "$WORKFLOW_DIR" -type f -name "*.yml" -not -name "no-publish-guard.yml" -print0 | xargs -0 git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" || true)" ]; then
+            echo "Potential publish-related strings found in workflows. Please ensure publishing automation is intentional." >&2
             exit 1
           fi
 
