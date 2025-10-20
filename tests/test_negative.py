@@ -5,13 +5,14 @@ Negative tests - error handling and edge cases
 import pytest
 from pydub import AudioSegment
 
-from ..core.frequency import FrequencyMap
-from ..core.primitives import Bass, HiHat, Kick
-from ..core.timing import MusicalTime, TimingCalculator
-from ..generators.synth_generator import SynthGenerator
-from ..processing.distortion import Distortion
-from ..processing.dynamics import DynamicsProcessor
-from ..processing.filters import TechnoFilters
+from techno.core.frequency import FrequencyMap
+from techno.core.primitives import Bass, HiHat, Kick
+from techno.core.timing import MusicalTime, TimingCalculator
+from techno.generators.synth_generator import SynthGenerator
+from techno.processing.distortion import Distortion
+from techno.processing.dynamics import DynamicsProcessor
+from techno.processing.filters import TechnoFilters
+
 from .conftest import create_sine_wave
 
 
@@ -39,14 +40,15 @@ class TestFrequencyNegative:
 
     def test_analyze_empty_audio(self):
         """Test frequency analysis on empty audio"""
-        from ..core.frequency import analyze_frequency_content
 
-        empty_audio = AudioSegment.silent(duration=100)
-        results = analyze_frequency_content(empty_audio)
+    from techno.core.frequency import analyze_frequency_content
 
-        # Should return valid results even for silence
-        assert isinstance(results, dict)
-        assert len(results) > 0
+    empty_audio = AudioSegment.silent(duration=100)
+    results = analyze_frequency_content(empty_audio)
+
+    # Should return valid results even for silence
+    assert isinstance(results, dict)
+    assert len(results) > 0
 
     def test_frequency_map_invalid_bands(self):
         """Test FrequencyMap with invalid band configuration"""
@@ -176,25 +178,27 @@ class TestFileOperationsNegative:
 
     def test_cli_analyze_nonexistent_file(self):
         """Test analyze command with nonexistent file"""
-        from click.testing import CliRunner
 
-        from ..cli.main import cli
+    from click.testing import CliRunner
 
-        runner = CliRunner()
-        result = runner.invoke(cli, ["analyze", "nonexistent.wav"])
+    from techno.cli.main import cli
 
-        # Should handle gracefully
-        assert result.exit_code != 0 or "Error" in result.output
+    runner = CliRunner()
+    result = runner.invoke(cli, ["analyze", "nonexistent.wav"])
+
+    # Should handle gracefully
+    assert result.exit_code != 0 or "Error" in result.output
 
     def test_cli_generate_invalid_output_path(self):
         """Test generate with invalid output path"""
-        from click.testing import CliRunner
 
-        from ..cli.main import cli
+    from click.testing import CliRunner
 
-        runner = CliRunner()
-        # Try to write to a directory that doesn't exist
-        result = runner.invoke(cli, ["generate", "--output", "/nonexistent/dir/track.wav"])
+    from techno.cli.main import cli
 
-        # Should handle the error
-        assert result.exit_code != 0 or "Error" in result.output
+    runner = CliRunner()
+    # Try to write to a directory that doesn't exist
+    result = runner.invoke(cli, ["generate", "--output", "/nonexistent/dir/track.wav"])
+
+    # Should handle the error
+    assert result.exit_code != 0 or "Error" in result.output

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 from click.testing import CliRunner
 
-from ..cli.main import cli
+from techno.cli.main import cli
 
 
 class TestCLI:

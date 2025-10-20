@@ -5,9 +5,9 @@ These test MUSICAL correctness, not just technical
 
 from pydub import AudioSegment
 
-from ..composition.phrase import TechnoPhrase
-from ..core.primitives import Bass, HiHat, Kick
-from ..processing.filters import TechnoFilters
+from techno.composition.phrase import TechnoPhrase
+from techno.core.primitives import Bass, HiHat, Kick
+from techno.processing.filters import TechnoFilters
 
 
 class TestMusicalQuality:

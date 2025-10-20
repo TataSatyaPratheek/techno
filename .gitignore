@@ -161,3 +161,6 @@ Thumbs.db
 
 # UV specific
 .uv/
+
+# Backup folders from cleanup
+backup-flat-duplicates-*/

@@ -7,10 +7,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 from pydub import AudioSegment
 
-from ..mixers.base import BaseMixer
-from ..mixers.dub import DubTechnoMixer
-from ..mixers.industrial import IndustrialTechnoMixer
-from ..mixers.minimal import MinimalTechnoMixer
+from techno.mixers.base import BaseMixer
+from techno.mixers.dub import DubTechnoMixer
+from techno.mixers.industrial import IndustrialTechnoMixer
+from techno.mixers.minimal import MinimalTechnoMixer
 
 
 class TestBaseMixer:

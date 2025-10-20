@@ -67,16 +67,7 @@ def analyze_frequency_content(audio: AudioSegment, sample_rate: int = 44100) -> 
     if max_val > 0:
         samples = samples / max_val
 
-    # Compute FFT
-    if samples.size == 0:
-        return {b.name: 0.0 for b in bands}
-
-    fft = np.fft.rfft(samples)
-    freqs = np.fft.rfftfreq(len(samples), 1 / sample_rate)
-    magnitudes = np.abs(fft)
-
-    # Analyze each band
-    results = {}
+    # Define frequency bands
     bands = [
         FrequencyMap.SUB_BASS,
         FrequencyMap.BASS,
@@ -87,6 +78,16 @@ def analyze_frequency_content(audio: AudioSegment, sample_rate: int = 44100) -> 
         FrequencyMap.AIR,
     ]
 
+    # Compute FFT
+    if samples.size == 0:
+        return {b.name: 0.0 for b in bands}
+
+    fft = np.fft.rfft(samples)
+    freqs = np.fft.rfftfreq(len(samples), 1 / sample_rate)
+    magnitudes = np.abs(fft)
+
+    # Analyze each band
+    results = {}
     total_energy = np.sum(magnitudes**2)
 
     for band in bands:

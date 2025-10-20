@@ -5,12 +5,13 @@ Test frequency analysis and carving
 import numpy as np
 from pydub import AudioSegment
 
-from ..core.frequency import (
+from techno.core.frequency import (
     FrequencyBand,
     FrequencyMap,
     analyze_frequency_content,
     apply_highpass,
 )
+
 from .conftest import create_sine_wave
 
 
@@ -138,34 +139,36 @@ class TestHighPassFilter:
 
     def test_band_pass_filter(self):
         """Test band-pass filter isolates frequency range"""
-        from ..processing.filters import TechnoFilters
 
-        # Create test audio with multiple frequencies
-        audio = create_sine_wave(1000, 2000)  # 1kHz
-        audio = audio.overlay(create_sine_wave(200, 2000))  # 200Hz
-        audio = audio.overlay(create_sine_wave(5000, 2000))  # 5kHz
+    from techno.processing.filters import TechnoFilters
 
-        # Band-pass around 1kHz
-        filtered = TechnoFilters.band_pass(audio, low_hz=800, high_hz=1200)
+    # Create test audio with multiple frequencies
+    audio = create_sine_wave(1000, 2000)  # 1kHz
+    audio = audio.overlay(create_sine_wave(200, 2000))  # 200Hz
+    audio = audio.overlay(create_sine_wave(5000, 2000))  # 5kHz
 
-        assert isinstance(filtered, AudioSegment)
-        assert len(filtered) == len(audio)
+    # Band-pass around 1kHz
+    filtered = TechnoFilters.band_pass(audio, low_hz=800, high_hz=1200)
 
-        # Should attenuate frequencies outside the band
-        # (This is a basic test - production would use spectrum analysis)
+    assert isinstance(filtered, AudioSegment)
+    assert len(filtered) == len(audio)
+
+    # Should attenuate frequencies outside the band
+    # (This is a basic test - production would use spectrum analysis)
 
     def test_filter_sweep(self):
         """Test filter sweep automation"""
-        from ..processing.filters import TechnoFilters
 
-        # Create test audio
-        audio = create_sine_wave(1000, 5000)  # 5 second tone
+    from techno.processing.filters import TechnoFilters
 
-        # Sweep from low to high
-        swept = TechnoFilters.filter_sweep(audio, start_hz=200, end_hz=5000, sweep_duration_ms=5000)
+    # Create test audio
+    audio = create_sine_wave(1000, 5000)  # 5 second tone
 
-        assert isinstance(swept, AudioSegment)
-        assert len(swept) == len(audio)
+    # Sweep from low to high
+    swept = TechnoFilters.filter_sweep(audio, start_hz=200, end_hz=5000, sweep_duration_ms=5000)
 
-        # Swept audio should be different from original
-        # (Basic check - production would analyze frequency content over time)
+    assert isinstance(swept, AudioSegment)
+    assert len(swept) == len(audio)
+
+    # Swept audio should be different from original
+    # (Basic check - production would analyze frequency content over time)

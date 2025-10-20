@@ -4,7 +4,7 @@ Test synthesis utilities
 
 import numpy as np
 
-from ..core.synthesis import EnvelopeGenerator, WaveformGenerator
+from techno.core.synthesis import EnvelopeGenerator, WaveformGenerator
 
 
 class TestWaveformGenerator:

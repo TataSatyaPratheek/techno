@@ -4,7 +4,7 @@ Test timing calculations (critical for bar alignment)
 
 import pytest
 
-from ..core.timing import MusicalTime, TimingCalculator
+from techno.core.timing import MusicalTime, TimingCalculator
 
 
 class TestMusicalTime:

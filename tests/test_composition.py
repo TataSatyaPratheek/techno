@@ -4,9 +4,13 @@ Test composition modules
 
 from pydub import AudioSegment
 
-from ..composition.phrase import TechnoPhrase
-from ..composition.section import SectionBuilder
-from ..composition.structure import StructureTemplates, TrackComposer, TrackStructure
+from techno.composition.phrase import TechnoPhrase
+from techno.composition.section import SectionBuilder
+from techno.composition.structure import (
+    StructureTemplates,
+    TrackComposer,
+    TrackStructure,
+)
 
 
 class TestTechnoPhrase:

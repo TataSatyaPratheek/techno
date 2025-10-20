@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 from pydub import AudioSegment
 
-from ..generators.musicgpt_generator import MusicGPTGenerator
-from ..generators.synth_generator import SynthGenerator
+from techno.generators.musicgpt_generator import MusicGPTGenerator
+from techno.generators.synth_generator import SynthGenerator
 
 
 class TestMusicGPTGenerator:
