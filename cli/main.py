@@ -8,8 +8,8 @@ from pathlib import Path
 import click
 import yaml
 
-from ..mixers.industrial import IndustrialTechnoMixer
-from ..mixers.minimal import MinimalTechnoMixer
+from techno.mixers.industrial import IndustrialTechnoMixer
+from techno.mixers.minimal import MinimalTechnoMixer
 
 
 @click.group()
@@ -82,7 +82,7 @@ def analyze(audio_file):
 
     from pydub import AudioSegment
 
-    from core.frequency import analyze_frequency_content
+    from techno.core.frequency import analyze_frequency_content
 
     audio = AudioSegment.from_file(audio_file)
 
