@@ -4,26 +4,37 @@ on:
   push:
     branches: [ main ]
 
+# CRITICAL: Grant write permissions to github-actions bot
+permissions:
+  contents: write
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        # IMPORTANT: Use PAT or enable workflow permissions
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # Fetch all history for proper git operations
 
-    - name: Install FFmpeg
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg libavcodec-extra
 
     - name: Install uv
       uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
 
     - name: Set up Python
       run: uv python install 3.12
 
+    # FIX: Use uv sync (not --dev)
     - name: Install dependencies
-      run: uv sync --dev
+      run: uv sync
 
     - name: Run tests with coverage
       run: |
@@ -34,8 +45,17 @@ jobs:
       with:
         output: coverage.svg
 
+    - name: Verify badge was created
+      run: |
+        ls -lh coverage.svg
+        echo "Badge created successfully"
+
     - name: Commit coverage badge
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "Update coverage badge"
+        commit_message: "chore: update coverage badge [skip ci]"
         file_pattern: coverage.svg
+        commit_user_name: github-actions[bot]
+        commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+        commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+        skip_dirty_check: false
