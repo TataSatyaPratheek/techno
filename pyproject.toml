@@ -40,6 +40,12 @@ dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "coverage>=7.0.0",
+    "types-PyYAML>=6.0",
+    "black==25.9.0",
+    "isort==7.0.0",
+    "flake8==7.3.0",
+    "mypy==1.18.2",
+    "typing-extensions>=4.0.0",
 ]
 docs = [
     "sphinx>=5.0.0",
@@ -59,6 +65,7 @@ Changelog = "https://github.com/yourusername/techno/blob/main/CHANGELOG.md"
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --cov=techno --cov-report=term-missing --cov-report=html"
+pythonpath = ["src"]
 testpaths = [
     "tests",
 ]
@@ -88,15 +95,50 @@ exclude_lines = [
     "@(abc\\.)?abstractmethod",
 ]
 
+[tool.hatch.build]
+# Map the package root to `src/` and list the package name explicitly.
+# This keeps the `src/` development layout while ensuring the wheel
+# installs a top-level `techno` package.
+package-dir = { "" = "src" }
+packages = ["techno"]
+
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["techno"]
 
 [dependency-groups]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "coverage>=7.0.0",
+    "types-pyyaml>=6.0.12.20250915",
+    "black==25.9.0",
+    "isort==7.0.0",
+    "flake8==7.3.0",
+    "mypy==1.18.2",
+    "typing-extensions>=4.0.0",
 ]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+ignore_missing_imports = true
+namespace_packages = false
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = "techno.*"
+ignore_missing_imports = true
 
 [tool.isort]
 profile = "black"
