@@ -23,9 +23,7 @@ class TechnoPrimitive:
 
         # Create AudioSegment
         byte_array = samples_int.tobytes()
-        return AudioSegment(
-            data=byte_array, sample_width=2, frame_rate=self.sample_rate, channels=1
-        )
+        return AudioSegment(data=byte_array, sample_width=2, frame_rate=self.sample_rate, channels=1)
 
 
 class Kick(TechnoPrimitive):
@@ -148,9 +146,7 @@ class Bass(TechnoPrimitive):
 
         return self.to_audio_segment(bass)
 
-    def generate_303_pattern(
-        self, notes: list, pattern: str = "x-x-x-x-"
-    ) -> AudioSegment:
+    def generate_303_pattern(self, notes: list, pattern: str = "x-x-x-x-") -> AudioSegment:
         """
         Generate acid bassline pattern
 
@@ -181,9 +177,7 @@ class Bass(TechnoPrimitive):
                 result += note
             else:
                 # Rest
-                rest_duration = int(
-                    0.25 * 4 * self.samples_per_beat / self.sample_rate * 1000
-                )
+                rest_duration = int(0.25 * 4 * self.samples_per_beat / self.sample_rate * 1000)
                 result += AudioSegment.silent(duration=rest_duration)
 
         return result

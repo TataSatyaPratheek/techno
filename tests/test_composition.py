@@ -197,6 +197,4 @@ class TestTrackComposer:
         assert isinstance(track, AudioSegment)
         # Should be approximately 64 bars at 124 BPM
         expected_duration = 64 * 60 / 124 * 1000 * 4
-        assert (
-            abs(len(track) - expected_duration) < 2000
-        )  # Larger tolerance for complex composition
+        assert abs(len(track) - expected_duration) < 2000  # Larger tolerance for complex composition

@@ -11,9 +11,7 @@ class Distortion:
     """Distortion effects for industrial/aggressive techno"""
 
     @staticmethod
-    def waveshaper(
-        audio: AudioSegment, drive: float = 0.5, curve: str = "soft"  # 0-1
-    ) -> AudioSegment:
+    def waveshaper(audio: AudioSegment, drive: float = 0.5, curve: str = "soft") -> AudioSegment:  # 0-1
         """
         Waveshaping distortion
 
@@ -48,9 +46,7 @@ class Distortion:
         )
 
     @staticmethod
-    def bit_crush(
-        audio: AudioSegment, bit_depth: int = 12  # 16 = clean, 8 = lo-fi, 4 = extreme
-    ) -> AudioSegment:
+    def bit_crush(audio: AudioSegment, bit_depth: int = 12) -> AudioSegment:  # 16 = clean, 8 = lo-fi, 4 = extreme
         """
         Bit depth reduction (digital distortion)
 

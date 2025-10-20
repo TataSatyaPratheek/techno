@@ -1,0 +1,28 @@
+name: Prevent accidental publish
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  guard:
+    name: Guard against publishing steps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Search for publish keywords
+        run: |
+          set -euo pipefail
+          # Look for common publish commands or PyPI references in workflows and source
+          if git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" -- . || true; then
+            echo "Potential publish-related strings found. Please ensure publishing automation is intentional." >&2
+            git grep -n -- "uv publish\|twine upload\|upload to pypi\|pypi" -- . || true
+            exit 1
+          fi
+
+      - name: OK
+        run: echo "No publish keywords found"

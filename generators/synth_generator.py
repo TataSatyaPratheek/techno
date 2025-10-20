@@ -22,9 +22,7 @@ class SynthGenerator:
         self.bass_gen = Bass(bpm)
         self.hat_gen = HiHat(bpm)
 
-    def generate_stem(
-        self, element: str, duration_bars: int = 8, style: str = "minimal"
-    ) -> AudioSegment:
+    def generate_stem(self, element: str, duration_bars: int = 8, style: str = "minimal") -> AudioSegment:
         """
         Generate single stem
 
@@ -47,9 +45,7 @@ class SynthGenerator:
             stem = AudioSegment.silent(duration=0)
             while len(stem) < duration_ms:
                 stem += kick
-                stem += AudioSegment.silent(
-                    duration=int(self.timing.ms_per_beat - len(kick))
-                )
+                stem += AudioSegment.silent(duration=int(self.timing.ms_per_beat - len(kick)))
 
             return stem[:duration_ms]
 
@@ -66,9 +62,7 @@ class SynthGenerator:
                 note_midi = notes[note_idx]
                 freq = 440 * (2 ** ((note_midi - 69) / 12))
 
-                bass_note = self.bass_gen.generate_note(
-                    frequency=freq, duration_bars=0.125
-                )
+                bass_note = self.bass_gen.generate_note(frequency=freq, duration_bars=0.125)
                 stem += bass_note
 
             return stem[:duration_ms]
@@ -95,9 +89,7 @@ class SynthGenerator:
         else:
             return AudioSegment.silent(duration=duration_ms)
 
-    def generate_all_stems(
-        self, duration_bars: int = 8, style: str = "minimal"
-    ) -> Dict[str, AudioSegment]:
+    def generate_all_stems(self, duration_bars: int = 8, style: str = "minimal") -> Dict[str, AudioSegment]:
         """Generate all stems for a track"""
         return {
             "kick": self.generate_stem("kick", duration_bars, style),

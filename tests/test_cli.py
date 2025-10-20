@@ -42,9 +42,7 @@ bpm: 124
 """
             )
 
-            result = runner.invoke(
-                cli, ["generate", "--subgenre", "minimal", "--output", "test.wav"]
-            )
+            result = runner.invoke(cli, ["generate", "--subgenre", "minimal", "--output", "test.wav"])
 
             assert result.exit_code == 0
             assert "Generating minimal techno track" in result.output
@@ -141,9 +139,7 @@ bpm: 138
 
         import numpy as np
 
-        mock_audio.get_array_of_samples.return_value = array(
-            "h", np.random.randint(-32768, 32767, 44100)
-        )
+        mock_audio.get_array_of_samples.return_value = array("h", np.random.randint(-32768, 32767, 44100))
         mock_audio.frame_rate = 44100
 
         mock_analyze.return_value = {

@@ -46,9 +46,7 @@ class FrequencyMap:
         return allocations.get(element, [])
 
 
-def analyze_frequency_content(
-    audio: AudioSegment, sample_rate: int = 44100
-) -> Dict[str, float]:
+def analyze_frequency_content(audio: AudioSegment, sample_rate: int = 44100) -> Dict[str, float]:
     """
     Analyze which frequencies are present
 
@@ -154,6 +152,4 @@ def apply_highpass(audio: AudioSegment, cutoff_hz: int) -> AudioSegment:
 
     # Convert back
     filtered_int = (filtered).astype(np.int16)
-    return AudioSegment(
-        data=filtered_int.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1
-    )
+    return AudioSegment(data=filtered_int.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1)

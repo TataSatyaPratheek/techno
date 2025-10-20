@@ -19,9 +19,7 @@ def cli():
 
 
 @cli.command()
-@click.option(
-    "--subgenre", type=click.Choice(["minimal", "industrial", "dub"]), default="minimal"
-)
+@click.option("--subgenre", type=click.Choice(["minimal", "industrial", "dub"]), default="minimal")
 @click.option("--bpm", type=int, default=None, help="Override default BPM")
 @click.option("--output", type=str, default="output.wav", help="Output filename")
 def generate(subgenre, bpm, output):

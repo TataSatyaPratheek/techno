@@ -115,9 +115,7 @@ class TestHighPassFilter:
 
         mixed = (mixed / np.max(np.abs(mixed)) * 32767).astype(np.int16)
 
-        return AudioSegment(
-            data=mixed.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1
-        )
+        return AudioSegment(data=mixed.tobytes(), sample_width=2, frame_rate=sample_rate, channels=1)
 
     def test_highpass_removes_sub_bass(self):
         """Test that high-pass filter removes sub-bass"""
@@ -164,9 +162,7 @@ class TestHighPassFilter:
         audio = create_sine_wave(1000, 5000)  # 5 second tone
 
         # Sweep from low to high
-        swept = TechnoFilters.filter_sweep(
-            audio, start_hz=200, end_hz=5000, sweep_duration_ms=5000
-        )
+        swept = TechnoFilters.filter_sweep(audio, start_hz=200, end_hz=5000, sweep_duration_ms=5000)
 
         assert isinstance(swept, AudioSegment)
         assert len(swept) == len(audio)

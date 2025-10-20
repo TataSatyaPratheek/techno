@@ -194,9 +194,7 @@ class TestFileOperationsNegative:
 
         runner = CliRunner()
         # Try to write to a directory that doesn't exist
-        result = runner.invoke(
-            cli, ["generate", "--output", "/nonexistent/dir/track.wav"]
-        )
+        result = runner.invoke(cli, ["generate", "--output", "/nonexistent/dir/track.wav"])
 
         # Should handle the error
         assert result.exit_code != 0 or "Error" in result.output

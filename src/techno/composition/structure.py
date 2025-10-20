@@ -94,30 +94,20 @@ class TrackComposer:
 
             # Build section based on type
             if section_name == "intro":
-                section = self.section_builder.create_intro(
-                    bars=bars, style=section_def.get("style", "minimal")
-                )
+                section = self.section_builder.create_intro(bars=bars, style=section_def.get("style", "minimal"))
 
             elif section_name in ["buildup", "develop"]:
-                section = self.section_builder.create_buildup(
-                    bars=bars, filter_sweep=section_def.get("filter_sweep", True)
-                )
+                section = self.section_builder.create_buildup(bars=bars, filter_sweep=section_def.get("filter_sweep", True))
 
             elif section_name in ["drop", "climax", "main"]:
-                section = self.section_builder.create_drop(
-                    bars=bars, energy=section_def.get("energy", 1.0)
-                )
+                section = self.section_builder.create_drop(bars=bars, energy=section_def.get("energy", 1.0))
 
             elif section_name == "breakdown":
-                section = self.section_builder.create_breakdown(
-                    bars=bars, remove_elements=section_def.get("remove", ["hats"])
-                )
+                section = self.section_builder.create_breakdown(bars=bars, remove_elements=section_def.get("remove", ["hats"]))
 
             elif section_name == "outro":
                 # Outro is like breakdown but with fade
-                section = self.section_builder.create_breakdown(
-                    bars=bars, remove_elements=["hats"]
-                )
+                section = self.section_builder.create_breakdown(bars=bars, remove_elements=["hats"])
 
                 if section_def.get("fade_out"):
                     section = section.fade_out(len(section) // 2)
@@ -135,9 +125,7 @@ class TrackComposer:
         print(f"✅ Track composed: {len(track) / 1000:.1f}s")
         return track
 
-    def _finalize_track(
-        self, track: AudioSegment, structure: TrackStructure
-    ) -> AudioSegment:
+    def _finalize_track(self, track: AudioSegment, structure: TrackStructure) -> AudioSegment:
         """
         Final processing: normalization, trim
         """

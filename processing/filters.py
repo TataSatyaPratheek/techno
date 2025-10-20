@@ -14,9 +14,7 @@ class TechnoFilters:
     """Production-grade filters for techno"""
 
     @staticmethod
-    def low_pass(
-        audio: AudioSegment, cutoff_hz: int, resonance: float = 0.7, order: int = 4
-    ) -> AudioSegment:
+    def low_pass(audio: AudioSegment, cutoff_hz: int, resonance: float = 0.7, order: int = 4) -> AudioSegment:
         """
         Low-pass filter (removes highs)
 
