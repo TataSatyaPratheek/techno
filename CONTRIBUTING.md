@@ -1,205 +1,321 @@
-# Contributing to Techno Music Generator
+# Contributing to Techno Generator
 
-Thank you for your interest in contributing to the Techno Music Generator! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing! This guide will help you set up your development environment and understand our workflow.
 
-## Code of Conduct
+## 🚀 Quick Setup
 
-This project follows a code of conduct to ensure a welcoming environment for all contributors. By participating, you agree to:
+### Prerequisites
 
-- Be respectful and inclusive
-- Focus on constructive feedback
-- Accept responsibility for mistakes
-- Show empathy towards other contributors
-- Help create a positive community
+- Python 3.10, 3.11, or 3.12
+- Git
+- FFmpeg
+- UV package manager
 
-## How to Contribute
-
-### Development Setup
-
-1. **Fork the repository** on GitHub
-2. **Clone your fork** locally:
-
-   ```bash
-   git clone https://github.com/yourusername/techno.git
-   cd techno
-   ```
-
-3. **Set up the development environment** (project uses a `src/` layout):
-
-   ```bash
-   # Create the environment and install dev deps
-   uv sync --dev
-
-   # Editable install so your local edits are active
-   pip install -e .
-   ```
-
-4. **Create a feature branch**:
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-### Development Workflow
-
-1. **Make your changes** following the coding standards
-2. **Add tests** for new functionality
-3. **Run the test suite**:
-   ```bash
-   uv run pytest
-   ```
-4. **Check code quality**:
-   ```bash
-   uv run black .
-   uv run isort .
-   uv run mypy src/techno
-   ```
-
-Note: CI runs a strict check pipeline; prefer using the `uv run` invocations above (they are configured to run tools against the `src/` package layout).
-
-For a concise developer quickstart and instructions for building local wheels (private distribution), see the `Developer quickstart` and `Local release / private wheel (HOWTO)` sections in `README.md`.
-
-### Repository publishing policy
-
-This repository is not published to PyPI and there is no automated publishing configured for public release. The project is intended for local development, research, and private use. If maintainers later decide to publish, they should:
-
-- Add clear release notes and a changelog entry.
-- Ensure reviewers and maintainers agree to the release.
-- Add publishing automation and repository secrets deliberately and separately from development changes.
-
-## Development Workflow (continuation)
-
-1. **Commit your changes**:
-
-   ```bash
-   git add .
-   git commit -m "feat: add your feature description"
-   ```
-
-1. **Push to your fork**:
-
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-1. **Create a Pull Request** on GitHub
-
-```text
-src/techno/
-├── cli/                 # Command-line interface
-├── core/                # Core audio primitives
-├── composition/         # Musical composition algorithms
-├── generators/          # Audio generators and synthesizers
-├── mixers/              # Mixing and mastering tools
-├── processing/          # Audio effects and processing
-├── presets/             # Style presets and configurations
-└── tests/               # Test suite
-```
-
-### Commit Messages
-
-Follow conventional commit format:
+### Initial Setup
 
 ```
-type(scope): description
+# 1. Fork the repository on GitHub
+# Click "Fork" at https://github.com/TataSatyaPratheek/techno
+
+# 2. Clone your fork
+git clone https://github.com/YOUR_USERNAME/techno.git
+cd techno
+
+# 3. Add upstream remote
+git remote add upstream https://github.com/TataSatyaPratheek/techno.git
+
+# 4. Install UV
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.bashrc
+
+# 5. Install dependencies
+uv sync
+
+# 6. Verify setup
+uv run pytest
+```
+
+## 🧪 Development Workflow
+
+### 1. Create a Branch
+
+```
+# Update main
+git checkout main
+git pull upstream main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+```
+
+### 2. Make Changes
+
+```
+# Edit code
+# Write tests
+# Update documentation
+```
+
+### 3. Test Your Changes
+
+```
+# Run all tests
+uv run pytest
+
+# Run specific tests
+uv run pytest tests/test_timing.py -v
+
+# Check coverage
+uv run pytest --cov=techno --cov-report=html
+```
+
+### 4. Format and Lint
+
+```
+# Format code
+uv run black src/techno tests
+
+# Sort imports
+uv run isort src/techno tests
+
+# Type check
+uv run mypy src/techno
+
+# Lint
+uv run flake8 src/techno tests --max-line-length=127
+```
+
+### 5. Commit Changes
+
+```
+# Stage changes
+git add .
+
+# Commit with descriptive message
+git commit -m "feat: add new subgenre support for hard techno"
+
+# Push to your fork
+git push origin feature/your-feature-name
+```
+
+### 6. Open Pull Request
+```
+1. Go to https://github.com/TataSatyaPratheek/techno
+2. Click "Pull Requests" → "New Pull Request"
+3. Select your fork and branch
+4. Fill in description
+5. Submit PR
+```
+
+## 📝 Commit Message Format
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
 
 [optional body]
 
 [optional footer]
 ```
 
-Types:
+### Types
 
-```text
-1. `feat`: New feature
-1. `fix`: Bug fix
-1. `docs`: Documentation changes
-1. `style`: Code style changes
-1. `refactor`: Code refactoring
-1. `test`: Test additions/changes
-1. `chore`: Maintenance tasks
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code refactoring
+- `test`: Test changes
+- `chore`: Build/tooling changes
+
+### Examples
+
 ```
-
-Examples:
-
-```text
-feat(generator): add industrial techno style support
-fix(mixer): resolve audio clipping in high-gain scenarios
+feat(mixers): add hard techno mixer
+fix(timing): correct BPM calculation for 140+ tempos
 docs(readme): update installation instructions
+test(composition): add integration tests for structure
 ```
 
-### Testing
+## 🧪 Testing Guidelines
 
-- Maintain test coverage above 90%
-- Write unit tests for all new functions
-- Write integration tests for complex workflows
-- Use descriptive test names and docstrings
+### Writing Tests
 
-### Documentation
+```
+# tests/test_new_feature.py
+import pytest
+from techno.your_module import YourClass
 
-- Update README.md for user-facing changes
-- Add docstrings to all public functions
-- Update CHANGELOG.md for significant changes
-- Keep code comments clear and helpful
 
-## Project Structure
-
-```text
-src/techno/
-├── cli/                 # Command-line interface
-├── core/                # Core audio primitives
-├── composition/         # Musical composition algorithms
-├── generators/          # Audio generators and synthesizers
-├── mixers/              # Mixing and mastering tools
-├── processing/          # Audio effects and processing
-├── presets/             # Style presets and configurations
-└── tests/               # Test suite
+class TestYourClass:
+    """Test YourClass functionality"""
+    
+    def test_basic_functionality(self):
+        """Test basic usage"""
+        obj = YourClass(param=123)
+        result = obj.method()
+        assert result == expected_value
+    
+    def test_edge_case(self):
+        """Test edge case"""
+        obj = YourClass(param=0)
+        with pytest.raises(ValueError):
+            obj.method()
 ```
 
-## Audio Development Guidelines
+### Test Coverage
 
-When working with audio generation:
+```
+- Aim for >90% coverage
+- Test edge cases and error conditions
+- Write docstrings for test classes and methods
+```
 
-- **Sample rates**: Use 44100 Hz as default
-- **Bit depth**: Use 16-bit PCM for WAV files
-- **Normalization**: Keep audio levels between -1.0 and 1.0
-- **Performance**: Optimize for real-time generation where possible
-- **Testing**: Use short durations for automated tests
+### Running Tests
 
-## Pull Request Process
+```
+# All tests
+uv run pytest
 
-1. **Ensure CI passes** - All tests and linting must pass
-2. **Update documentation** - README, CHANGELOG, etc.
-3. **Squash commits** - Combine related commits into logical units
-4. **Write clear PR description** - Explain what and why
-5. **Request review** - Tag maintainers for review
+# Specific file
+uv run pytest tests/test_timing.py
 
-## Issue Reporting
+# Specific test
+uv run pytest tests/test_timing.py::TestTimingCalculator::test_bars_to_ms
 
-When reporting bugs:
+# With coverage
+uv run pytest --cov=techno --cov-report=term-missing
 
-- Use the issue template
-- Include Python version, OS, and dependency versions
-- Provide minimal reproduction case
-- Include error messages and stack traces
-- Describe expected vs. actual behavior
+# Verbose output
+uv run pytest -vv
+```
 
-## Feature Requests
+## 📚 Documentation
 
-For new features:
+### Docstring Format
 
-- Check existing issues first
-- Describe the use case clearly
-- Explain why it's needed
-- Consider implementation complexity
-- Be open to alternative solutions
+Use Google-style docstrings:
 
-## Recognition
+```
+def generate_track(bpm: int, subgenre: str) -> AudioSegment:
+    """Generate techno track.
+    
+    Args:
+        bpm: Beats per minute (100-180)
+        subgenre: Subgenre name ('minimal', 'industrial', etc.)
+    
+    Returns:
+        AudioSegment containing generated track
+    
+    Raises:
+        ValueError: If BPM is out of range
+    
+    Example:
+        >>> track = generate_track(130, 'minimal')
+        >>> track.export("output.wav", format="wav")
+    """
+```
 
-Contributors will be recognized in:
+### Update README
 
+```
+If you add features, update:
+- Usage examples
+- API documentation
+- Roadmap
+```
+
+## 🎯 Pull Request Checklist
+
+Before submitting:
+```
+- [ ] Tests pass locally (`uv run pytest`)
+- [ ] Code is formatted (`uv run black .`)
+- [ ] Imports are sorted (`uv run isort .`)
+- [ ] Type checks pass (`uv run mypy src/techno`)
+- [ ] Linting passes (`uv run flake8 src/techno tests`)
+- [ ] Documentation updated (if needed)
+- [ ] CHANGELOG.md updated (if significant change)
+- [ ] Commit messages follow convention
+```
+
+## 🐛 Bug Reports
+
+### Before Reporting
+```
+1. Search existing issues
+2. Verify bug exists in latest version
+3. Try minimal reproduction
+```
+
+### Bug Report Template
+
+```
+## Bug Description: Brief description
+
+## Steps to Reproduce
+1. Step 1
+2. Step 2
+3. Step 3
+
+## Expected Behavior
+What should happen
+
+## Actual Behavior
+What actually happens
+
+## Environment
+- OS: Ubuntu 24.04
+- Python: 3.12.1
+- Package version: 0.1.0
+
+## Minimal Example
+
+## Additional Context
+Screenshots, logs, etc.
+```
+
+## 💡 Feature Requests
+
+### Feature Request Template
+
+```
+## Feature Description
+What feature do you want?
+
+## Use Case
+Why is this useful?
+
+## Proposed Solution
+How should it work?
+
+## Alternatives Considered
+Other approaches?
+
+## Additional Context
+Mockups, examples, etc.
+```
+
+## 🤔 Questions?
+
+- Open a [GitHub Discussion](https://github.com/TataSatyaPratheek/techno/discussions)
+- Check existing issues
+- Read documentation
+
+## 📜 Code of Conduct
+
+- Be respectful and inclusive
+- Focus on constructive feedback
+- Help others learn and grow
+- Follow GitHub's Community Guidelines
+
+## 🎉 Recognition
+
+Contributors are recognized in:
+- GitHub contributors list
 - CHANGELOG.md for significant contributions
-- GitHub repository contributors list
-- Project documentation
+- Special thanks in releases
 
-Thank you for contributing to the Techno Music Generator! 🎵
+---
+Thank you for contributing! 🎵
