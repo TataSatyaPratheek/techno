@@ -2,9 +2,10 @@
 Test synthesis utilities
 """
 
-import pytest
 import numpy as np
-from ..core.synthesis import WaveformGenerator, EnvelopeGenerator
+import pytest
+
+from ..core.synthesis import EnvelopeGenerator, WaveformGenerator
 
 
 class TestWaveformGenerator:

@@ -2,13 +2,13 @@
 Test processing effects
 """
 
-import pytest
 import numpy as np
+import pytest
 from pydub import AudioSegment
+
 from ..processing.distortion import Distortion
 from ..processing.dynamics import DynamicsProcessor
 from ..processing.spatial import SpatialProcessor
-from .conftest import create_sine_wave
 from .conftest import create_sine_wave
 
 
@@ -19,8 +19,8 @@ class TestDistortion:
         """Test soft waveshaping"""
         # Create test audio (sine wave)
         test_audio = create_sine_wave(440, 1000)
-        
-        result = Distortion.waveshaper(test_audio, drive=0.5, curve='soft')
+
+        result = Distortion.waveshaper(test_audio, drive=0.5, curve="soft")
 
         assert isinstance(result, AudioSegment)
         assert result.frame_rate == test_audio.frame_rate
@@ -34,8 +34,8 @@ class TestDistortion:
     def test_waveshaper_hard(self):
         """Test hard waveshaping"""
         test_audio = create_sine_wave(440, 1000)
-        
-        result = Distortion.waveshaper(test_audio, drive=0.8, curve='hard')
+
+        result = Distortion.waveshaper(test_audio, drive=0.8, curve="hard")
 
         assert isinstance(result, AudioSegment)
 
@@ -48,7 +48,7 @@ class TestDistortion:
     def test_bit_crush(self):
         """Test bit crushing"""
         test_audio = create_sine_wave(440, 1000)
-        
+
         result = Distortion.bit_crush(test_audio, bit_depth=8)
 
         assert isinstance(result, AudioSegment)
@@ -66,7 +66,7 @@ class TestDistortion:
     def test_bit_crush_extreme(self):
         """Test extreme bit crushing"""
         test_audio = create_sine_wave(440, 1000)
-        
+
         result = Distortion.bit_crush(test_audio, bit_depth=4)
 
         assert isinstance(result, AudioSegment)
@@ -75,22 +75,23 @@ class TestDistortion:
         samples = np.array(result.get_array_of_samples())
         unique_vals = len(np.unique(samples))
         assert unique_vals < 50  # Very quantized
+
+
 class TestDynamicsProcessor:
     """Test dynamics processing"""
 
     def test_compress(self):
         """Test compression"""
         # Create dynamic test signal (quiet to loud)
-        samples = np.concatenate([
-            np.full(1000, 5000, dtype=np.int16),   # Quiet
-            np.full(1000, 20000, dtype=np.int16),  # Loud
-            np.full(1000, 5000, dtype=np.int16)    # Quiet again
-        ])
+        samples = np.concatenate(
+            [
+                np.full(1000, 5000, dtype=np.int16),  # Quiet
+                np.full(1000, 20000, dtype=np.int16),  # Loud
+                np.full(1000, 5000, dtype=np.int16),  # Quiet again
+            ]
+        )
         test_audio = AudioSegment(
-            data=samples.tobytes(),
-            sample_width=2,
-            frame_rate=44100,
-            channels=1
+            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
         )
 
         result = DynamicsProcessor.compress(test_audio, threshold_db=-20, ratio=4.0)
@@ -108,10 +109,7 @@ class TestDynamicsProcessor:
         # Create signal that exceeds ceiling
         samples = np.full(1000, 30000, dtype=np.int16)  # Very loud
         test_audio = AudioSegment(
-            data=samples.tobytes(),
-            sample_width=2,
-            frame_rate=44100,
-            channels=1
+            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
         )
 
         result = DynamicsProcessor.limit(test_audio, ceiling_db=-6.0)
@@ -131,7 +129,7 @@ class TestSpatialProcessor:
     def test_delay(self):
         """Test delay effect"""
         test_audio = create_sine_wave(440, 1000)
-        
+
         result = SpatialProcessor.delay(test_audio, delay_ms=100, feedback=0.3, mix=0.5)
 
         assert isinstance(result, AudioSegment)
@@ -145,7 +143,7 @@ class TestSpatialProcessor:
     def test_delay_no_feedback(self):
         """Test delay with no feedback"""
         test_audio = create_sine_wave(440, 1000)
-        
+
         result = SpatialProcessor.delay(test_audio, delay_ms=200, feedback=0.0, mix=1.0)
 
         assert isinstance(result, AudioSegment)
@@ -168,7 +166,7 @@ class TestSpatialProcessor:
         """Test stereo widening"""
         # Start with mono audio
         mono_audio = create_sine_wave(440, 1000)
-        
+
         result = SpatialProcessor.stereo_width(mono_audio, width=1.5)
 
         assert isinstance(result, AudioSegment)
@@ -177,8 +175,8 @@ class TestSpatialProcessor:
 
         # Stereo samples should be different
         samples = np.array(result.get_array_of_samples())
-        left = samples[::2]   # Even indices
-        right = samples[1::2] # Odd indices
+        left = samples[::2]  # Even indices
+        right = samples[1::2]  # Odd indices
         assert not np.allclose(left, right)
 
     def test_stereo_width_already_stereo(self):
@@ -197,10 +195,7 @@ class TestSpatialProcessor:
         # Create signal that exceeds ceiling
         samples = np.full(1000, 30000, dtype=np.int16)  # Very loud
         test_audio = AudioSegment(
-            data=samples.tobytes(),
-            sample_width=2,
-            frame_rate=44100,
-            channels=1
+            data=samples.tobytes(), sample_width=2, frame_rate=44100, channels=1
         )
 
         result = DynamicsProcessor.limit(test_audio, ceiling_db=-6.0)
@@ -266,8 +261,8 @@ class TestSpatialProcessor:
 
         # Stereo samples should be different
         samples = np.array(result.get_array_of_samples())
-        left = samples[::2]   # Even indices
-        right = samples[1::2] # Odd indices
+        left = samples[::2]  # Even indices
+        right = samples[1::2]  # Odd indices
         assert not np.allclose(left, right)
 
     def test_stereo_width_already_stereo(self):

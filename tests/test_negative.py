@@ -4,14 +4,15 @@ Negative tests - error handling and edge cases
 
 import pytest
 from pydub import AudioSegment
-from ..core.timing import TimingCalculator, MusicalTime
+
 from ..core.frequency import FrequencyMap
-from ..core.primitives import Kick, Bass, HiHat
+from ..core.primitives import Bass, HiHat, Kick
+from ..core.timing import MusicalTime, TimingCalculator
 from ..generators.synth_generator import SynthGenerator
-from .conftest import create_sine_wave
-from ..processing.filters import TechnoFilters
 from ..processing.distortion import Distortion
 from ..processing.dynamics import DynamicsProcessor
+from ..processing.filters import TechnoFilters
+from .conftest import create_sine_wave
 
 
 class TestTimingNegative:
@@ -101,7 +102,7 @@ class TestSynthGeneratorNegative:
     def test_generate_unknown_element(self):
         """Test generating unknown element"""
         gen = SynthGenerator(120)
-        result = gen.generate_stem('unknown', 1, 'minimal')
+        result = gen.generate_stem("unknown", 1, "minimal")
 
         # Should return silence
         assert isinstance(result, AudioSegment)
@@ -112,9 +113,9 @@ class TestSynthGeneratorNegative:
     def test_generate_zero_duration(self):
         """Test generate with zero duration"""
         gen = SynthGenerator(120)
-        
+
         # Should handle zero duration gracefully
-        stem = gen.generate_stem('kick', 0, 'minimal')
+        stem = gen.generate_stem("kick", 0, "minimal")
         assert isinstance(stem, AudioSegment)
         assert len(stem) == 0
 
@@ -138,10 +139,10 @@ class TestProcessingNegative:
         audio = create_sine_wave(440, 1000)
 
         # Extreme drive values
-        result = Distortion.waveshaper(audio, drive=10.0, curve='hard')
+        result = Distortion.waveshaper(audio, drive=10.0, curve="hard")
         assert isinstance(result, AudioSegment)
 
-        result = Distortion.waveshaper(audio, drive=-1.0, curve='soft')
+        result = Distortion.waveshaper(audio, drive=-1.0, curve="soft")
         assert isinstance(result, AudioSegment)
 
     def test_dynamics_invalid_ratio(self):
@@ -175,22 +176,26 @@ class TestFileOperationsNegative:
     def test_cli_analyze_nonexistent_file(self):
         """Test analyze command with nonexistent file"""
         from click.testing import CliRunner
+
         from ..cli.main import cli
 
         runner = CliRunner()
-        result = runner.invoke(cli, ['analyze', 'nonexistent.wav'])
+        result = runner.invoke(cli, ["analyze", "nonexistent.wav"])
 
         # Should handle gracefully
-        assert result.exit_code != 0 or 'Error' in result.output
+        assert result.exit_code != 0 or "Error" in result.output
 
     def test_cli_generate_invalid_output_path(self):
         """Test generate with invalid output path"""
         from click.testing import CliRunner
+
         from ..cli.main import cli
 
         runner = CliRunner()
         # Try to write to a directory that doesn't exist
-        result = runner.invoke(cli, ['generate', '--output', '/nonexistent/dir/track.wav'])
+        result = runner.invoke(
+            cli, ["generate", "--output", "/nonexistent/dir/track.wav"]
+        )
 
         # Should handle the error
-        assert result.exit_code != 0 or 'Error' in result.output
+        assert result.exit_code != 0 or "Error" in result.output

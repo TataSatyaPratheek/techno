@@ -2,15 +2,17 @@
 Integration tests - end-to-end functionality
 """
 
-import pytest
-from unittest import mock
 from pathlib import Path
+from unittest import mock
+
+import pytest
 from pydub import AudioSegment
+
 from ..generators.synth_generator import SynthGenerator
 from ..mixers.minimal import MinimalTechnoMixer
+from ..processing.dynamics import DynamicsProcessor
 from ..processing.filters import TechnoFilters
 from .conftest import create_sine_wave
-from ..processing.dynamics import DynamicsProcessor
 
 
 class TestEndToEndGeneration:
@@ -22,12 +24,12 @@ class TestEndToEndGeneration:
         gen = SynthGenerator(128)
 
         # Generate all stems
-        stems = gen.generate_all_stems(duration_bars=2, style='minimal')
+        stems = gen.generate_all_stems(duration_bars=2, style="minimal")
 
         assert len(stems) == 3
-        assert 'kick' in stems
-        assert 'bass' in stems
-        assert 'hats' in stems
+        assert "kick" in stems
+        assert "bass" in stems
+        assert "hats" in stems
 
         # Each stem should be audio
         for stem in stems.values():
@@ -48,7 +50,7 @@ class TestEndToEndGeneration:
         mixer = MinimalTechnoMixer(124)
 
         # Mock the composition parts to avoid complexity
-        with mock.patch.object(mixer, 'composer') as mock_composer:
+        with mock.patch.object(mixer, "composer") as mock_composer:
             mock_track = create_sine_wave(440, 5000)  # 5 second test track
             mock_composer.compose.return_value = mock_track
 
@@ -75,10 +77,10 @@ class TestEndToEndGeneration:
         test_audio = low_freq.overlay(mid_freq).overlay(high_freq)
 
         results = analyze_frequency_content(test_audio)
-        
+
         assert isinstance(results, dict)
-        assert 'sub' in results
-        assert 'bass' in results
+        assert "sub" in results
+        assert "bass" in results
 
         # Should have some content in each band
         assert sum(results.values()) > 95  # Should account for most energy
@@ -107,15 +109,17 @@ class TestEndToEndGeneration:
         """Test interaction between different modules"""
         # Generate stems
         synth = SynthGenerator(120)
-        stems = synth.generate_all_stems(duration_bars=1, style='minimal')
+        stems = synth.generate_all_stems(duration_bars=1, style="minimal")
 
         # Apply processing to each stem
         processed_stems = {}
         for name, stem in stems.items():
-            if name == 'kick':
+            if name == "kick":
                 # Apply compression to kick
-                processed = DynamicsProcessor.compress(stem, threshold_db=-15, ratio=4.0)
-            elif name == 'bass':
+                processed = DynamicsProcessor.compress(
+                    stem, threshold_db=-15, ratio=4.0
+                )
+            elif name == "bass":
                 # Apply low-pass to bass
                 processed = TechnoFilters.low_pass(stem, cutoff_hz=3000)
             else:
