@@ -1,5 +1,7 @@
 # Techno Music Generator
 
+[![Prevent accidental publish](https://github.com/TataSatyaPratheek/techno/actions/workflows/no-publish-guard.yml/badge.svg)](https://github.com/TataSatyaPratheek/techno/actions/workflows/no-publish-guard.yml)
+
 A comprehensive Python library for generating techno music using algorithmic composition, synthesis, and audio processing techniques.
 
 ## Features
@@ -190,7 +192,7 @@ uv run pip install build
 uv run python -m build --wheel --outdir dist
 ```
 
-2. Create an isolated virtualenv and install the wheel
+1. Create an isolated virtualenv and install the wheel
 
 ```bash
 # Create an isolated venv
