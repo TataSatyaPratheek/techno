@@ -7,8 +7,7 @@ from pydub import AudioSegment
 
 from ..composition.phrase import TechnoPhrase
 from ..composition.section import SectionBuilder
-from ..composition.structure import (StructureTemplates, TrackComposer,
-                                     TrackStructure)
+from ..composition.structure import StructureTemplates, TrackComposer, TrackStructure
 
 
 class TestTechnoPhrase:

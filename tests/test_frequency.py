@@ -6,8 +6,12 @@ import numpy as np
 import pytest
 from pydub import AudioSegment
 
-from ..core.frequency import (FrequencyBand, FrequencyMap,
-                              analyze_frequency_content, apply_highpass)
+from ..core.frequency import (
+    FrequencyBand,
+    FrequencyMap,
+    analyze_frequency_content,
+    apply_highpass,
+)
 from .conftest import create_sine_wave
 
 
